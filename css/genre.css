@@ -1,0 +1,16 @@
+.genre-list {
+    color: white;
+    margin: 20px 20px;
+    list-style-type: none;
+}
+
+.genre__item{
+    padding: 2px;
+    cursor: pointer;
+    max-width: 120px;
+}
+
+.genre__item:hover{
+    color: lightgray;
+    
+}
