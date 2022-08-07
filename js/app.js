@@ -4,6 +4,8 @@ const API_URL_SEARCH = "https://kinopoiskapiunofficial.tech/api/v2.1/films/searc
 const API_PAGE_URL = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_100_POPULAR_FILMS&page=";
 const API_URL_FILTER = "https://kinopoiskapiunofficial.tech/api/v2.2/films?"
 const genreName = getUrlParameter(`genre`);
+const countryName = getUrlParameter(`country`);
+const typeName = getUrlParameter(`type`);
 
 
 function getUrlParameter(sParam) {
@@ -22,11 +24,35 @@ function getUrlParameter(sParam) {
     return false;
     };
 
+async function getMoviesbySearch(url) {
+        const resp = await fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-API-KEY": API_KEY,
+            },
+        });
+        const respData = await resp.json();
+                
+        return respData.films;
+        };
 
-
-async function getMoviesbyGenre(genre) {
+async function getMoviesbyType(type,count=1) {
     let url = API_URL_FILTER
-    url = `${url}genres=${genre}`
+    url = `${url}type=${type}&page=${count}`
+        const resp = await fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "X-API-KEY": API_KEY,
+            },
+        });
+        const respData = await resp.json();
+            
+        return respData.items;
+        };
+
+async function getMoviesbyCountry(country,count=1) {
+    let url = API_URL_FILTER
+    url = `${url}countries=${country}&page=${count}`
         const resp = await fetch(url, {
            headers: {
                "Content-Type": "application/json",
@@ -34,12 +60,27 @@ async function getMoviesbyGenre(genre) {
            },
         });
         const respData = await resp.json();
+        
         return respData.items;
     };
 
+async function getMoviesbyGenre(genre,count=1) {
+    let url = API_URL_FILTER
+    url = `${url}genres=${genre}&page=${count}`
+        const resp = await fetch(url, {
+           headers: {
+               "Content-Type": "application/json",
+               "X-API-KEY": API_KEY,
+           },
+        });
+        const respData = await resp.json();
+        
+        return respData.items;
+    };
 
-
-async function getMovies(url) {
+async function getMovies(count = 1) {
+    let url = API_PAGE_URL
+    url = `${url}${count}`
      const resp = await fetch(url, {
         headers: {
             "Content-Type": "application/json",
@@ -61,13 +102,11 @@ function getClassByRate(vote) {
     }
 }
 
-
-
-
 function showMovies(data) {// найти более красивый способ и эффективный способ создать(клонировать) дивы
     const moviesEl = document.querySelector(".movies");
 
     document.querySelector(".movies").innerHTML = "";
+    console.log(data);
     data.forEach((movie) => {
         const movieEl = document.createElement("div")
         movieEl.classList.add("movie")
@@ -102,11 +141,14 @@ form.addEventListener("submit", (e) => {
 
     const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
     if (search.value) {
-        getMovies(apiSearchUrl);
-
+            getMoviesbySearch(apiSearchUrl).then(promise => {
+            showMovies(promise)
+        })
         search.value = "";
     }
 });
+
+// скрывать Пагинацию после поиска
 
 const pageCount = 5;
 let count = 1;
@@ -126,48 +168,78 @@ count + thisarrow.somevariable()
 }
 */
 
-
 arrows.addEventListener("click", (event) => {// разбить на два ивента
     if(event.target.className == rightArrow.className) {
         if (count < pageCount){
             count++;
-            rightArrow.classList.remove("hide");
-            leftArrow.classList.remove("hide");
-        }
-        else { 
-            rightArrow.classList.add("hide");
         }
     }
     else if(event.target.className == leftArrow.className){
        if (count > 1){
         count--;
-        leftArrow.classList.remove("hide");
-        rightArrow.classList.remove("hide");
-      }
-        else  { 
-        leftArrow.classList.add("hide");
       }
     }
+    
     arrowPages.textContent = count + " из " + pageCount;
-    const apiPageUrlNumber = `${API_PAGE_URL}${count}`;
-    getMovies(apiPageUrlNumber);
+
+    if(genreName){
+        getMoviesbyGenre(genreName,count).then(promise => {
+            showMovies(promise)
+        })
+        
+    }
+        else if(countryName){
+        getMoviesbyCountry(countryName,count).then(promise => {
+            showMovies(promise)
+        })
+    }
+
+        else if(typeName){
+        getMoviesbyType(typeName,count).then(promise => {
+            showMovies(promise)
+        })
+    }
+        else  {
+        getMovies(count).then(promise => {
+            showMovies(promise)
+        })
+        
+     }
    
 });
 
-
-
-
 if(genreName){
-
     getMoviesbyGenre(genreName).then(promise => {
         showMovies(promise)
     })
     
-}  else {
-    getMovies(API_URL_POPULAR).then(promise => {
+}
+    else if(countryName){
+    getMoviesbyCountry(countryName).then(promise => {
+        showMovies(promise)
+    })
+}
+
+    else if(typeName){
+    getMoviesbyType(typeName).then(promise => {
+        showMovies(promise)
+    })
+}
+
+    else  {
+    getMovies().then(promise => {
         showMovies(promise)
     })
     
+ }
+
+const menuBox = document.querySelector(".menu__box");
+
+menuBox.onclick = (event) => {
+    if (event.target.tagName!== 'A') return false;
+    const typeId = event.target.getAttribute("type");
+    console.log(typeId)
+    window.location.href = `http://127.0.0.1:5500/main.html?type=${typeId}`
 }
     
 
