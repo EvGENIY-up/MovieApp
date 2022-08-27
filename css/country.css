@@ -1,13 +1,25 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+
 .countries-list {
     color: white;
     margin: 20px 20px;
     list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .country__item{
     padding: 2px;
     cursor: pointer;
-    max-width: 120px;
+    width: 20%;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .country__item:hover{

@@ -1,0 +1,140 @@
+body{
+    background-color: black;
+}
+
+
+.container-movie{
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding: 30px;
+    color: white;
+    font-family: "Open Sans", sans-serif;
+}
+
+.poster__img{
+    width: 300px;
+    height: 450px;
+}
+
+.trailer{
+    margin-top: 20px;
+}
+
+.trailer__img{
+    width: 300px;
+    height: 168px;
+    border-radius: 8px;
+}
+
+.center-side{
+    padding: 10px 50px;
+}
+
+
+.raiting{
+    color: #ffd80e;
+}
+
+.title-eng{
+    color: grey;
+    margin-top: 10px;
+}
+.description{
+    color: #ffd80e;
+    margin-top: 30px;
+    width: 85%;
+}
+
+.second-section{
+    margin-top: 20%;
+}
+
+.right-side{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15%;
+}
+
+.vote-count{
+    margin-top: 5px;
+}
+
+.reviews{
+    margin-top: 10px;
+}
+
+.about-info{
+    margin-top: 30px;
+    height: 33%
+}
+
+.items{
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+}
+
+.item{
+    flex: 1;
+    font-size: 15px;
+    line-height: 18px;
+    color: #ffd80e;
+}
+
+.white{
+    width: 160px;
+    font-size: 15px;
+    line-height: 18px;
+}
+
+.reviews{
+    margin-top: 20px;
+}
+
+.cover-url{
+    position: fixed;
+    z-index: -1;
+    opacity: 0.08;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    width: 100%;
+}
+
+.trailer-btn{
+    cursor: pointer;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    background-color: #f60;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    align-items: center;
+    width: auto;
+    padding: 8px 21px 8px 16px;
+    position: absolute;
+    bottom: 2;
+    left: 0;
+    margin: 14px;
+}
+
+.trailer{
+    position: relative;
+    cursor: pointer;
+}
+
+.trailer__title{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 1;
+    margin: 14px;
+    color: grey;
+}
